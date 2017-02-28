@@ -17,3 +17,13 @@ def get_printers():
             details[json_arg] = cups_details[cups_arg]
 
         yield details
+
+
+def printer_exists(printer_id):
+    return printer_id in CUPS_CONN.getPrinters()
+
+
+def get_printer(printer_id):
+    for item in get_printers():
+        if item['id'] == printer_id:
+            return item

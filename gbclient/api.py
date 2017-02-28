@@ -17,9 +17,14 @@ def about():
     })
 
 
-@app.route('/api/v1/printers', methods=['GET'])
-def printers_list():
-    try:
-        return jsonify([printer for printer in utils.get_printers()])
-    except:
-        return abort(500)
+@app.route('/api/v1/printer', methods=['GET'])
+def printer_list():
+    return jsonify([printer for printer in utils.get_printers()])
+
+
+@app.route('/api/v1/printer/<printer_name>', methods=['GET'])
+def printer_get(printer_name):
+    if not utils.printer_exists(printer_name):
+        return abort(404)
+
+    return jsonify(utils.get_printer(printer_name))
