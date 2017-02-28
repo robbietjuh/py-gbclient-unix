@@ -4,4 +4,5 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'gbclient-unix ready!'
+    return '<h1>gbclient-unix</h1>' \
+           'Accepting connections!'
