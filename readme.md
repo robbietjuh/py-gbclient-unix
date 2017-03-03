@@ -113,4 +113,23 @@ CUPS has excellent documentation on the allowed media sizes [here](https://www.c
 
 ## Security
 
+### Authentication
+
 `gbclient-unix` does not provide any means of authentication at this point in time. It would be nice to have though, so if you feel like contributing some love I'd really appreciate that :-)
+
+### CORS
+
+If you would like to use `gbclient-unix` to help you print labels from within your web application, for example through doing AJAX calls to the local server, you might want to configure CORS.
+
+The application supports Flask-Cors and you can specify the configuration attributes in your `local_settings.py`.
+
+For example, to allow AJAX requests from example.com you'd configure the following:
+
+```
+CORS_ENABLED = True
+CORS_CONFIG = {
+    'origins': ['example.com',],
+}
+```
+
+All the available configuration options can be found in Flask-Cors' excellent [documentation](http://flask-cors.corydolphin.com/en/latest/api.html#flask_cors.CORS).
