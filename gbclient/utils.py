@@ -53,7 +53,7 @@ def get_media_size(template):
 def generate_pdf(label_name, context):
     template = generate_label_html(label_name, context)
     media_size = get_media_size(template)
-    filename = '/tmp/%s.pdf' % uuid.uuid4()
+    filename = '/tmp/gbclient-%s.pdf' % uuid.uuid4()
 
     with open(os.path.join(filename), "w+b") as f:
         pisa.CreatePDF(template, dest=f, link_callback=lambda uri, _: '%s/%s' % (TEMPLATE_FOLDER, uri))
