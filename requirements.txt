@@ -1,0 +1,5 @@
+Flask==0.12
+html5lib==1.0b10
+pycups==1.9.73
+xhtml2pdf==0.2b1
+Flask-Cors==3.0.2
