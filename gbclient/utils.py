@@ -42,24 +42,32 @@ def generate_label_html(label_name, context):
     return template
 
 
-def get_media_size(template):
+def get_options(template):
     parser = html5lib.HTMLParser(tree=html5lib.getTreeBuilder("dom"))
     doc = parser.parse(template)
-    attr = doc.documentElement.attributes.get('data-gbclient-media-size')
 
-    return attr.value if attr else '62mm'
+    options = {}
+
+    media_size = doc.documentElement.attributes.get('data-gbclient-media-size')
+    options['media'] = media_size.value if media_size else '62mm'
+
+    media_orientation = doc.documentElement.attributes.get('data-gbclient-orientation')
+    if media_orientation:
+        options['orientation-requested'] = media_orientation.value
+
+    return options
 
 
 def generate_pdf(label_name, context):
     template = generate_label_html(label_name, context)
-    media_size = get_media_size(template)
+    options = get_options(template)
     filename = '/tmp/gbclient-%s.pdf' % uuid.uuid4()
 
     with open(os.path.join(filename), "w+b") as f:
         pisa.CreatePDF(template, dest=f, link_callback=lambda uri, _: '%s/%s' % (TEMPLATE_FOLDER, uri))
 
-    return media_size, filename
+    return options, filename
 
 
-def print_pdf(printer_name, filename, media_size):
-    CUPS_CONN.printFile(printer_name, filename, 'gbclient-unix label', options={'media': media_size})
+def print_pdf(printer_name, filename, options):
+    CUPS_CONN.printFile(printer_name, filename, 'gbclient-unix label', options=options)

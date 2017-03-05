@@ -44,7 +44,7 @@ def printer_print(printer_name):
     if label_name.startswith('static') or label_name == 'base':
         return abort(400)
 
-    media_size, filename = utils.generate_pdf(label_name, context)
-    utils.print_pdf(printer_name, filename, media_size)
+    options, filename = utils.generate_pdf(label_name, context)
+    utils.print_pdf(printer_name, filename, options)
 
     return ''
